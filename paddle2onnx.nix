@@ -4,6 +4,8 @@
   fetchPypi,
   python,
   onnx,
+  packaging,
+  paddlepaddle,
   autoPatchelfHook,
   stdenv,
 }:
@@ -33,6 +35,8 @@ let
 
   info = platformInfo.${stdenv.hostPlatform.system}
     or (throw "paddle2onnx: unsupported system ${stdenv.hostPlatform.system}");
+
+  sitePackages = "${paddlepaddle}/lib/${python.libPrefix}/site-packages";
 in
 buildPythonPackage {
   pname = "paddle2onnx";
@@ -55,10 +59,22 @@ buildPythonPackage {
 
   buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
     stdenv.cc.cc.lib
+    paddlepaddle
   ];
+
+  postFixup = lib.optionalString stdenv.hostPlatform.isDarwin ''
+    for so in $out/lib/${python.libPrefix}/site-packages/paddle2onnx/*.so; do
+      install_name_tool -change \
+        @loader_path/../paddle/base/libpaddle.so \
+        ${sitePackages}/paddle/base/libpaddle.so \
+        "$so"
+    done
+  '';
 
   dependencies = [
     onnx
+    packaging
+    paddlepaddle
   ];
 
   meta = {

@@ -66,7 +66,12 @@
               };
 
               nativeBuildInputs = [
+                pkgs.ccache
                 paddle2onnx
+              ] ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+                pkgs.darwin.system_cmds
+              ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+                pkgs.procps
               ];
 
               env = lib.optionalAttrs hasCuda {

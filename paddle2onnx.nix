@@ -59,8 +59,11 @@ buildPythonPackage {
 
   buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
     stdenv.cc.cc.lib
-    paddlepaddle
   ];
+
+  preFixup = lib.optionalString stdenv.hostPlatform.isLinux ''
+    addAutoPatchelfSearchPath "${sitePackages}/paddle/base"
+  '';
 
   postFixup = lib.optionalString stdenv.hostPlatform.isDarwin ''
     for so in $out/lib/${python.libPrefix}/site-packages/paddle2onnx/*.so; do

@@ -33,42 +33,42 @@ Build all models into a single output:
 nix build .#all
 ```
 
-Build the `paddle2onnx` tool itself:
-
-```bash
-nix build .#paddle2onnx
-```
-
 Each built model derivation contains:
 - `model.onnx` — the converted ONNX model
 - `config.yml` — original PaddlePaddle inference configuration
 
 ## Using in another flake
 
-Add this flake as an input and reference models via `lib.models` — no system key required:
+Add this flake as an input and call `lib.mkModels` with your `pkgs` instance to get model derivations built for the current system:
 
 ```nix
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
     paddle-onnx.url = "github:akiro-group/paddle-onnx";
   };
 
-  outputs = { self, nixpkgs, paddle-onnx }: {
-    packages.x86_64-linux.default = nixpkgs.legacyPackages.x86_64-linux.stdenv.mkDerivation {
-      name = "my-app";
-      buildInputs = [
-        paddle-onnx.lib.models.pp-ocrv5-mobile-rec
-      ];
-    };
-  };
+  outputs = { self, nixpkgs, flake-utils, paddle-onnx }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        models = paddle-onnx.lib.mkModels pkgs;
+      in
+      {
+        packages.default = pkgs.stdenv.mkDerivation {
+          name = "my-app";
+          buildInputs = [ models.pp-ocrv5-mobile-rec ];
+        };
+      }
+    );
 }
 ```
 
 Model files are available via the `passthru.modelPath` attribute, which resolves to the per-model subdirectory:
 
 ```nix
-paddle-onnx.lib.models.pp-ocrv5-mobile-rec.passthru.modelPath
+models.pp-ocrv5-mobile-rec.passthru.modelPath
 # => /nix/store/...-pp-ocrv5-mobile-rec-3.0.0/pp-ocrv5-mobile-rec
 ```
 

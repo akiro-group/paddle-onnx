@@ -8,10 +8,6 @@
 
   outputs = { self, nixpkgs, flake-utils }:
     let
-      # Models are system-independent data; build them with a canonical pkgs.
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      lib = pkgs.lib;
-
       baseUrl = "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0";
 
       models = {
@@ -41,85 +37,86 @@
         };
       };
 
-      paddle2onnxPkg = pkgs.python312Packages.callPackage ./paddle2onnx.nix { };
-
-      hasCuda = pkgs.config.cudaSupport or false;
-
-      mkOnnxModel = name: {
-        fetchName,
-        sha256,
-        modelFilename ? "inference.json",
-        paramsFilename ? "inference.pdiparams",
-      }:
+      mkModels = pkgs:
         let
-          tarName = "${fetchName}_infer";
-          drv = pkgs.stdenvNoCC.mkDerivation {
-            pname = name;
-            version = "3.0.0";
+          lib = pkgs.lib;
+          paddle2onnx = pkgs.python312Packages.callPackage ./paddle2onnx.nix { };
+          hasCuda = pkgs.config.cudaSupport or false;
 
-            src = pkgs.fetchurl {
-              url = "${baseUrl}/${tarName}.tar";
-              inherit sha256;
-            };
+          mkOnnxModel = name: {
+            fetchName,
+            sha256,
+            modelFilename ? "inference.json",
+            paramsFilename ? "inference.pdiparams",
+          }:
+            let
+              tarName = "${fetchName}_infer";
+              drv = pkgs.stdenvNoCC.mkDerivation {
+                pname = name;
+                version = "3.0.0";
 
-            nativeBuildInputs = [
-              pkgs.ccache
-              paddle2onnxPkg
-            ] ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
-              pkgs.darwin.system_cmds
-            ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
-              pkgs.procps
-            ];
+                src = pkgs.fetchurl {
+                  url = "${baseUrl}/${tarName}.tar";
+                  inherit sha256;
+                };
 
-            env = lib.optionalAttrs hasCuda {
-              LD_LIBRARY_PATH = "${pkgs.cudaPackages.cudatoolkit}/lib";
-              CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
-            };
+                nativeBuildInputs = [
+                  pkgs.ccache
+                  paddle2onnx
+                ] ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+                  pkgs.darwin.system_cmds
+                ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+                  pkgs.procps
+                ];
 
-            unpackPhase = ''
-              tar xf $src
-            '';
+                env = lib.optionalAttrs hasCuda {
+                  LD_LIBRARY_PATH = "${pkgs.cudaPackages.cudatoolkit}/lib";
+                  CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
+                };
 
-            buildPhase = ''
-              paddle2onnx \
-                --model_dir "${tarName}" \
-                --model_filename "${modelFilename}" \
-                --params_filename "${paramsFilename}" \
-                --save_file "${name}/model.onnx" \
-                --optimize_tool None
-            '';
+                unpackPhase = ''
+                  tar xf $src
+                '';
 
-            installPhase = ''
-              mkdir -p $out/${name}
-              cp ${name}/model.onnx $out/${name}/
-              cp ${tarName}/inference.yml $out/${name}/config.yml
-            '';
+                buildPhase = ''
+                  paddle2onnx \
+                    --model_dir "${tarName}" \
+                    --model_filename "${modelFilename}" \
+                    --params_filename "${paramsFilename}" \
+                    --save_file "${name}/model.onnx" \
+                    --optimize_tool None
+                '';
 
-            passthru.modelPath = "${drv}/${name}";
+                installPhase = ''
+                  mkdir -p $out/${name}
+                  cp ${name}/model.onnx $out/${name}/
+                  cp ${tarName}/inference.yml $out/${name}/config.yml
+                '';
 
-            meta = {
-              description = "ONNX export of ${fetchName}";
-            };
-          };
-        in drv;
+                passthru.modelPath = "${drv}/${name}";
 
-      modelDerivations = lib.mapAttrs mkOnnxModel models;
+                meta = {
+                  description = "ONNX export of ${fetchName}";
+                };
+              };
+            in drv;
+        in
+        lib.mapAttrs mkOnnxModel models;
 
     in
     {
-      lib.models = modelDerivations;
+      lib.mkModels = mkModels;
 
     } // flake-utils.lib.eachDefaultSystem (system:
       let
-        sysPkgs = import nixpkgs { inherit system; };
-        paddle2onnx = sysPkgs.python312Packages.callPackage ./paddle2onnx.nix { };
+        pkgs = import nixpkgs { inherit system; };
+        modelDerivations = mkModels pkgs;
       in
       {
         packages = modelDerivations // {
-          inherit paddle2onnx;
-          all = sysPkgs.symlinkJoin {
+          all = pkgs.symlinkJoin {
             name = "paddle-onnx-models-all";
-            paths = lib.attrValues modelDerivations;
+            paths = pkgs.lib.attrValues modelDerivations;
           };
         };
       }

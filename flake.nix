@@ -14,26 +14,32 @@
         eslav-pp-ocrv5-mobile-rec = {
           fetchName = "eslav_PP-OCRv5_mobile_rec";
           sha256 = "sha256-ufcNoMorvE1Mt7pAai0CMGEXhDfWqTDwfIyhjGxZGDk=";
+          outputHash = "sha256-RxJKX6jUvemYgZHXP6Z6as9EPct+srjxakjXsQxomtg=";
         };
         pp-lcnet-x1-0-doc-ori = {
           fetchName = "PP-LCNet_x1_0_doc_ori";
           sha256 = "sha256-KCM331xB98342s1az3H939wQIYOZ9LMYRjwX9OrpbJc=";
+          outputHash = "sha256-2SUa3Efj2Py8XXys0YjmK9Ycb25XAJg+1uySotJfjP0=";
         };
         pp-ocrv5-mobile-det = {
           fetchName = "PP-OCRv5_mobile_det";
           sha256 = "sha256-UERuXQGsKnPVMZyJUTKB9leEFMiIxgL5rxP5P+7//Fg=";
+          outputHash = "sha256-VQGv8uAIPh7nhe7qHr+RiY5fggK7aSmv+BxKCFByjRI=";
         };
         pp-ocrv5-mobile-rec = {
           fetchName = "PP-OCRv5_mobile_rec";
           sha256 = "sha256-VmuVErNONKnw21TYe1H6Wgue0s8at+SXKMwLi1pk9BQ=";
+          outputHash = "sha256-JO0p5og+CroL/kN23OgIc8xTxErPXFRd3QAmx5cAxqk=";
         };
         pp-ocrv5-server-det = {
           fetchName = "PP-OCRv5_server_det";
           sha256 = "sha256-IqM+C6aiFCXqQZLaA79DlcmgxnkCvZJLcyj8hZBzBF0=";
+          outputHash = "sha256-czb1N0bGHEZTdBf949OXag7JfTC5BtvNI505V5q1Q70=";
         };
         pp-ocrv5-server-rec = {
           fetchName = "PP-OCRv5_server_rec";
           sha256 = "sha256-2Zvi/9NIlDq1KHYXkWi+T7WxT18IEvKuTHbYnsLqdQo=";
+          outputHash = "sha256-SCMSAnlyIxtGMjflHrVfF02vW4XclLXtPp6qNo7MLUg=";
         };
       };
 
@@ -46,6 +52,7 @@
           mkOnnxModel = name: {
             fetchName,
             sha256,
+            outputHash,
             modelFilename ? "inference.json",
             paramsFilename ? "inference.pdiparams",
           }:
@@ -95,6 +102,10 @@
                   cp ${name}/model.slim.onnx $out/${name}/model.onnx
                   cp ${tarName}/inference.yml $out/${name}/config.yml
                 '';
+
+                inherit outputHash;
+                outputHashAlgo = "sha256";
+                outputHashMode = "recursive";
 
                 passthru.modelPath = "${drv}/${name}";
 

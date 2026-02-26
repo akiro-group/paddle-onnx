@@ -63,6 +63,7 @@
                 nativeBuildInputs = [
                   pkgs.ccache
                   paddle2onnx
+                  pkgs.python312Packages.onnxslim
                 ] ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
                   pkgs.darwin.system_cmds
                 ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
@@ -85,11 +86,13 @@
                     --params_filename "${paramsFilename}" \
                     --save_file "${name}/model.onnx" \
                     --optimize_tool None
+
+                  onnxslim "${name}/model.onnx" "${name}/model.slim.onnx"
                 '';
 
                 installPhase = ''
                   mkdir -p $out/${name}
-                  cp ${name}/model.onnx $out/${name}/
+                  cp ${name}/model.slim.onnx $out/${name}/model.onnx
                   cp ${tarName}/inference.yml $out/${name}/config.yml
                 '';
 

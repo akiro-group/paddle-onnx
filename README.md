@@ -34,7 +34,7 @@ nix build .#all
 ```
 
 Each built model derivation contains:
-- `model.onnx` — the converted ONNX model
+- `model.onnx` — converted and optimized with onnxslim
 - `config.yml` — original PaddlePaddle inference configuration
 
 ## Using in another flake

@@ -33,7 +33,7 @@ nix build .#pp-ocrv5-mobile-rec
 ```
 
 Each built model derivation contains:
-- `model.onnx` — converted and optimized with onnxslim
+- `model.onnx` — converted ONNX model
 - `config.yml` — original PaddlePaddle inference configuration
 
 ## Using in another flake

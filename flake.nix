@@ -14,57 +14,57 @@
         cyrillic-pp-ocrv5-mobile-det = {
           fetchName = "cyrillic_PP-OCRv5_mobile_rec";
           sha256 = "sha256-7wxm8Z6+aEna+ap0heklPSqNhR4WXiCL8IumimIK5kU=";
-          outputHash = "sha256-/jCOvKDVRwDfsHOTwdpxPlv0BuXrffnHmPrVU0Nc1o0=";
+          outputHash = "sha256-Pl90W8sOFGf935TGJcXt2YLAWcri6+VfDkf5ZXvmr28=";
         };
         latin-pp-ocrv5-mobile-rec = {
           fetchName = "latin_PP-OCRv5_mobile_rec";
           sha256 = "sha256-sjEFpqHqOOMql8Wg3cfoqbv1QdjkdCHiyZ6cyr4pUJw=";
-          outputHash = "sha256-aIULmAoBLs31eobzE9PTD3lAWJPgORVHb0P2FAhJLfs=";
+          outputHash = "sha256-KFyDLqf+V0amt2NN/wpUms9mw9hGM+eYHRII3XzY1rk=";
         };
         en-pp-ocrv5-mobile-det = {
           fetchName = "en_PP-OCRv5_mobile_rec";
           sha256 = "sha256-5ZW0zy/60Z+7WmG6NF1jk5V3o6uHF7blmVZCWQyRAbQ=";
-          outputHash = "sha256-qEbxHJ92i9AhSj9EIGEZOKVlBjvmBa00W1rP0jAC690=";
+          outputHash = "sha256-senkAmebyoicQ0lw9c9qNuWbTMiA992mzz734G9Hsr4=";
         };
         eslav-pp-ocrv5-mobile-rec = {
           fetchName = "eslav_PP-OCRv5_mobile_rec";
           sha256 = "sha256-ufcNoMorvE1Mt7pAai0CMGEXhDfWqTDwfIyhjGxZGDk=";
-          outputHash = "sha256-NS/Y8x6mlq95lE3Rm1EN0fUhYHoUYmLSY39BvBdSbug=";
+          outputHash = "sha256-JVC3YVSOc5ClRrLrD7Q4BcrYZzeLtFatkVmYTZ8MNWI=";
         };
         pp-lcnet-x0-25-textline-ori = {
           fetchName = "PP-LCNet_x0_25_textline_ori";
           sha256 = "sha256-Jo2a6mFGHD1KWjJ1LluSDory7goAI2L2ulzTljj6LDo=";
-          outputHash = "sha256-Z6KVcb2jaPhfLAzCJEvXV9b1AgQesL9vT+7k/DwY9vM=";
+          outputHash = "sha256-3ACW4zQnLcVERKeV9K1q85hCpZTEgDNSLGf9U/S8gXQ=";
         };
         pp-lcnet-x1-0-doc-ori = {
           fetchName = "PP-LCNet_x1_0_doc_ori";
           sha256 = "sha256-KCM331xB98342s1az3H939wQIYOZ9LMYRjwX9OrpbJc=";
-          outputHash = "sha256-pDW1oLy1WygwiYpJ/9ju1qHhzkcV4o5W/8qoJI9TBPM=";
+          outputHash = "sha256-8fIZLzE8MQDXAVHeSeGB9FgSjV5vPhnLjmGigie4Itw=";
         };
         pp-ocrv5-mobile-det = {
           fetchName = "PP-OCRv5_mobile_det";
           sha256 = "sha256-UERuXQGsKnPVMZyJUTKB9leEFMiIxgL5rxP5P+7//Fg=";
-          outputHash = "sha256-LQgWG0Z+8jrEIxHY+DmrkiFQMDonIhVMGkprvvlyfDI=";
+          outputHash = "sha256-8laQoLO5ZER+1T1m7TxK2oQv8Jvb2unWoFeUR2/OsWo=";
         };
         pp-ocrv5-mobile-rec = {
           fetchName = "PP-OCRv5_mobile_rec";
           sha256 = "sha256-VmuVErNONKnw21TYe1H6Wgue0s8at+SXKMwLi1pk9BQ=";
-          outputHash = "sha256-YahhenrM0aaws5vML8mSblC2hzPvXAtSJw4ov1Wf9LE=";
+          outputHash = "sha256-IJvx9G3F4Pz1Ye+zJ90pX69Z3SpDDPpyqMDfQ5V5CSk=";
         };
         pp-ocrv5-server-det = {
           fetchName = "PP-OCRv5_server_det";
           sha256 = "sha256-IqM+C6aiFCXqQZLaA79DlcmgxnkCvZJLcyj8hZBzBF0=";
-          outputHash = "sha256-O1Am7+KPPpKzfZjWuXoOWvcxWLSC1Y+Jfgeo3nrLY5U=";
+          outputHash = "sha256-kXOaDvXzPOxEysnGsvckoHyys68nYlFM5X3unZA94H4=";
         };
         pp-ocrv5-server-rec = {
           fetchName = "PP-OCRv5_server_rec";
           sha256 = "sha256-2Zvi/9NIlDq1KHYXkWi+T7WxT18IEvKuTHbYnsLqdQo=";
-          outputHash = "sha256-7WbM9dcdmi5mvJnE91JeiRviIk6ekqeyJ256HcLVK78=";
+          outputHash = "sha256-GruBSgCVA1Ww81IR3Ty2IZFFBwG2A8egXmc0Q77YvUM=";
         };
         uvdoc = {
           fetchName = "UVDoc";
           sha256 = "sha256-Fdeca8v3OLfhMu7f9u1Xx+g0xzy8FAof/4/Yq5wqNbk=";
-          outputHash = "sha256-fG9dIqfzuAQeWh0oRi112QhaYqD7EKIjhHPONsPJ+AM=";
+          outputHash = "sha256-0hCUNHnngEfXnzgxgUb7xBTaXsOTnILFGOAVyMn3M80=";
         };
       };
 
@@ -95,7 +95,6 @@
                 nativeBuildInputs = [
                   pkgs.ccache
                   paddle2onnx
-                  pkgs.python312Packages.onnxslim
                 ] ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
                   pkgs.darwin.system_cmds
                 ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
@@ -118,13 +117,11 @@
                     --params_filename "${paramsFilename}" \
                     --save_file "${name}/model.onnx" \
                     --optimize_tool None
-
-                  onnxslim "${name}/model.onnx" "${name}/model.slim.onnx"
                 '';
 
                 installPhase = ''
                   mkdir -p $out
-                  cp ${name}/model.slim.onnx $out/model.onnx
+                  cp ${name}/model.onnx $out/model.onnx
                   cp ${tarName}/inference.yml $out/config.yml
                 '';
 

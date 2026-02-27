@@ -32,12 +32,6 @@ Build a specific model:
 nix build .#pp-ocrv5-mobile-rec
 ```
 
-Build all models into a single output:
-
-```bash
-nix build .#all
-```
-
 Each built model derivation contains:
 - `model.onnx` — converted and optimized with onnxslim
 - `config.yml` — original PaddlePaddle inference configuration
@@ -68,13 +62,6 @@ Add this flake as an input and call `lib.mkModels` with your `pkgs` instance to 
       }
     );
 }
-```
-
-Model files are available via the `passthru.modelPath` attribute, which resolves to the per-model subdirectory:
-
-```nix
-models.pp-ocrv5-mobile-rec.passthru.modelPath
-# => /nix/store/...-pp-ocrv5-mobile-rec-3.0.0/pp-ocrv5-mobile-rec
 ```
 
 ## Platforms

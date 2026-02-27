@@ -6,12 +6,17 @@ A Nix Flake that downloads pre-trained [PaddlePaddle](https://www.paddlepaddle.o
 
 | Package name | Description |
 |---|---|
-| `eslav-pp-ocrv5-mobile-rec` | Eslavian OCR v5 recognition (mobile) |
-| `pp-lcnet-x1-0-doc-ori` | LCNet document orientation detection |
+| `cyrillic-pp-ocrv5-mobile-det` | Cyrillic OCR v5 recognition (mobile) |
+| `en-pp-ocrv5-mobile-det` | English OCR v5 recognition (mobile) |
+| `eslav-pp-ocrv5-mobile-rec` | East Slavic OCR v5 recognition (mobile) |
+| `latin-pp-ocrv5-mobile-rec` | Latin OCR v5 recognition (mobile) |
+| `pp-lcnet-x0-25-textline-ori` | LCNet x0.25 text line orientation detection |
+| `pp-lcnet-x1-0-doc-ori` | LCNet x1.0 document orientation detection |
 | `pp-ocrv5-mobile-det` | OCR v5 text detection (mobile) |
 | `pp-ocrv5-mobile-rec` | OCR v5 text recognition (mobile) |
 | `pp-ocrv5-server-det` | OCR v5 text detection (server) |
 | `pp-ocrv5-server-rec` | OCR v5 text recognition (server) |
+| `uvdoc` | UVDoc document unwarping |
 
 Models are sourced from the official PaddlePaddle model zoo (paddle3.0.0 inference models).
 

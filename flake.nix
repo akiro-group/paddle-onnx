@@ -11,10 +11,30 @@
       baseUrl = "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0";
 
       models = {
+        cyrillic-pp-ocrv5-mobile-det = {
+          fetchName = "cyrillic_PP-OCRv5_mobile_rec";
+          sha256 = "sha256-7wxm8Z6+aEna+ap0heklPSqNhR4WXiCL8IumimIK5kU=";
+          outputHash = "sha256-ie4hgiOuRSyQEslBB2H6y0YdIkkxUo24H/ime4eCfxo=";
+        };
+        latin-pp-ocrv5-mobile-rec = {
+          fetchName = "latin_PP-OCRv5_mobile_rec";
+          sha256 = "sha256-sjEFpqHqOOMql8Wg3cfoqbv1QdjkdCHiyZ6cyr4pUJw=";
+          outputHash = "sha256-NO7xfiTZ10zACBKGFG6qVuSDnYBWYn+JhUv1nWQ8I/E=";
+        };
+        en-pp-ocrv5-mobile-det = {
+          fetchName = "en_PP-OCRv5_mobile_rec";
+          sha256 = "sha256-5ZW0zy/60Z+7WmG6NF1jk5V3o6uHF7blmVZCWQyRAbQ=";
+          outputHash = "sha256-Y3NlDgkHzzzEBcsDz720zv89T8ZwOFROX1HyR3xRMSc=";
+        };
         eslav-pp-ocrv5-mobile-rec = {
           fetchName = "eslav_PP-OCRv5_mobile_rec";
           sha256 = "sha256-ufcNoMorvE1Mt7pAai0CMGEXhDfWqTDwfIyhjGxZGDk=";
           outputHash = "sha256-RxJKX6jUvemYgZHXP6Z6as9EPct+srjxakjXsQxomtg=";
+        };
+        pp-lcnet-x0-25-textline-ori = {
+          fetchName = "PP-LCNet_x0_25_textline_ori";
+          sha256 = "sha256-Jo2a6mFGHD1KWjJ1LluSDory7goAI2L2ulzTljj6LDo=";
+          outputHash = "sha256-uUWc+gpoH66YjRnl4hfIcKOQ1atMuGQW6IF5PDjBv+c=";
         };
         pp-lcnet-x1-0-doc-ori = {
           fetchName = "PP-LCNet_x1_0_doc_ori";
@@ -40,6 +60,11 @@
           fetchName = "PP-OCRv5_server_rec";
           sha256 = "sha256-2Zvi/9NIlDq1KHYXkWi+T7WxT18IEvKuTHbYnsLqdQo=";
           outputHash = "sha256-SCMSAnlyIxtGMjflHrVfF02vW4XclLXtPp6qNo7MLUg=";
+        };
+        uvdoc = {
+          fetchName = "UVDoc";
+          sha256 = "sha256-Fdeca8v3OLfhMu7f9u1Xx+g0xzy8FAof/4/Yq5wqNbk=";
+          outputHash = "sha256-vAn+rDQN3TiXDGrK63DPOkqN1wbaG/PegbyTCYUy2o4=";
         };
       };
 

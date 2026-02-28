@@ -71,7 +71,9 @@
       mkModels = pkgs:
         let
           lib = pkgs.lib;
-          paddle2onnx = pkgs.python312Packages.callPackage ./paddle2onnx.nix { };
+          paddle2onnx = pkgs.python312Packages.callPackage ./modules/paddle2onnx.nix {
+            paddlepaddle = pkgs.python312Packages.paddlepaddle.override { cudaSupport = false; };
+          };
           hasCuda = pkgs.config.cudaSupport or false;
 
           mkOnnxModel = name: {

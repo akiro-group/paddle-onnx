@@ -1,0 +1,18 @@
+--- a/inference.yml
++++ b/inference.yml
+@@ -4,13 +4,13 @@
+   backend_configs:
+     paddle_infer:
+       trt_dynamic_shapes:
+-        img:
++        image:
+           - [1, 3, 128, 64]
+           - [1, 3, 256, 128]
+           - [8, 3, 512, 256]
+     tensorrt:
+       dynamic_shapes:
+-        img:
++        image:
+           - [1, 3, 128, 64]
+           - [1, 3, 256, 128]
+           - [8, 3, 512, 256]

@@ -34,7 +34,8 @@
         pp-lcnet-x0-25-textline-ori = {
           fetchName = "PP-LCNet_x0_25_textline_ori";
           sha256 = "sha256-Jo2a6mFGHD1KWjJ1LluSDory7goAI2L2ulzTljj6LDo=";
-          outputHash = "sha256-3ACW4zQnLcVERKeV9K1q85hCpZTEgDNSLGf9U/S8gXQ=";
+          outputHash = "sha256-Dg5cvewZ817b6r1GQhyhv+KJIxHVdSxZVYVfFvZkxtM=";
+          inputShape = { x = [1 3 80 160]; };
         };
         pp-lcnet-x1-0-doc-ori = {
           fetchName = "PP-LCNet_x1_0_doc_ori";
@@ -64,7 +65,8 @@
         uvdoc = {
           fetchName = "UVDoc";
           sha256 = "sha256-Fdeca8v3OLfhMu7f9u1Xx+g0xzy8FAof/4/Yq5wqNbk=";
-          outputHash = "sha256-0hCUNHnngEfXnzgxgUb7xBTaXsOTnILFGOAVyMn3M80=";
+          outputHash = "sha256-jJR909VvOX8eAyc8q5/Bc5KavFRYZRad8V243abG5AI==";
+          patches = [ ./patches/0001-uvdoc-rename-img-to-image.patch ];
         };
       };
 
@@ -82,6 +84,8 @@
             outputHash,
             modelFilename ? "inference.json",
             paramsFilename ? "inference.pdiparams",
+            inputShape ? null,
+            patches ? [],
           }:
             let
               tarName = "${fetchName}_infer";
@@ -108,23 +112,28 @@
                   CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
                 };
 
-                unpackPhase = ''
-                  tar xf $src
-                '';
+                sourceRoot = tarName;
+
+                inherit patches;
 
                 buildPhase = ''
                   paddle2onnx \
-                    --model_dir "${tarName}" \
+                    --model_dir . \
                     --model_filename "${modelFilename}" \
                     --params_filename "${paramsFilename}" \
-                    --save_file "${name}/model.onnx" \
+                    --save_file model.onnx \
                     --optimize_tool None
+                '' + lib.optionalString (inputShape != null) ''
+                  python3 -m paddle2onnx.optimize \
+                    --input_model model.onnx \
+                    --output_model model.onnx \
+                    --input_shape_dict '${builtins.toJSON inputShape}'
                 '';
 
                 installPhase = ''
                   mkdir -p $out
-                  cp ${name}/model.onnx $out/model.onnx
-                  cp ${tarName}/inference.yml $out/config.yml
+                  cp model.onnx $out/model.onnx
+                  cp inference.yml $out/config.yml
                 '';
 
                 inherit outputHash;

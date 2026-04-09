@@ -104,83 +104,81 @@
         };
       };
 
-      mkModels =
-        pkgs: modelDefs:
+      mkModel =
+        pkgs: name:
+        {
+          src,
+          outputHash,
+          modelFilename ? "inference.json",
+          paramsFilename ? "inference.pdiparams",
+          inputShape ? null,
+          patches ? [ ],
+        }:
         let
           lib = pkgs.lib;
           paddle2onnx = pkgs.python312Packages.callPackage ./modules/paddle2onnx.nix {
             paddlepaddle = pkgs.python312Packages.paddlepaddle.override { cudaSupport = false; };
           };
           hasCuda = pkgs.config.cudaSupport or false;
-
-          mkOnnxModel =
-            name:
-            {
-              src,
-              outputHash,
-              modelFilename ? "inference.json",
-              paramsFilename ? "inference.pdiparams",
-              inputShape ? null,
-              patches ? [ ],
-            }:
-            pkgs.stdenvNoCC.mkDerivation {
-              pname = name;
-              version = "3.0.0";
-
-              inherit src patches;
-
-              nativeBuildInputs = [
-                pkgs.ccache
-                paddle2onnx
-              ]
-              ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
-                pkgs.darwin.system_cmds
-              ]
-              ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
-                pkgs.procps
-              ];
-
-              env = lib.optionalAttrs hasCuda {
-                LD_LIBRARY_PATH = "${pkgs.cudaPackages.cudatoolkit}/lib";
-                CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
-              };
-
-              buildPhase = ''
-                paddle2onnx \
-                  --model_dir . \
-                  --model_filename "${modelFilename}" \
-                  --params_filename "${paramsFilename}" \
-                  --save_file model.onnx \
-                  --optimize_tool None
-              ''
-              + lib.optionalString (inputShape != null) ''
-                python3 -m paddle2onnx.optimize \
-                  --input_model model.onnx \
-                  --output_model model.onnx \
-                  --input_shape_dict '${builtins.toJSON inputShape}'
-              '';
-
-              installPhase = ''
-                mkdir -p $out
-                cp model.onnx $out/model.onnx
-                cp inference.yml $out/config.yml
-              '';
-
-              inherit outputHash;
-              outputHashAlgo = "sha256";
-              outputHashMode = "recursive";
-
-              meta = {
-                description = "ONNX export of ${name}";
-              };
-            };
         in
-        lib.mapAttrs mkOnnxModel modelDefs;
+        pkgs.stdenvNoCC.mkDerivation {
+          pname = name;
+          version = "3.0.0";
+
+          inherit src patches;
+
+          nativeBuildInputs = [
+            pkgs.ccache
+            paddle2onnx
+          ]
+          ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+            pkgs.darwin.system_cmds
+          ]
+          ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
+            pkgs.procps
+          ];
+
+          env = lib.optionalAttrs hasCuda {
+            LD_LIBRARY_PATH = "${pkgs.cudaPackages.cudatoolkit}/lib";
+            CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
+          };
+
+          buildPhase = ''
+            paddle2onnx \
+              --model_dir . \
+              --model_filename "${modelFilename}" \
+              --params_filename "${paramsFilename}" \
+              --save_file model.onnx \
+              --optimize_tool None
+          ''
+          + lib.optionalString (inputShape != null) ''
+            python3 -m paddle2onnx.optimize \
+              --input_model model.onnx \
+              --output_model model.onnx \
+              --input_shape_dict '${builtins.toJSON inputShape}'
+          '';
+
+          installPhase = ''
+            mkdir -p $out
+            cp model.onnx $out/model.onnx
+            cp inference.yml $out/config.yml
+          '';
+
+          inherit outputHash;
+          outputHashAlgo = "sha256";
+          outputHashMode = "recursive";
+
+          meta = {
+            description = "ONNX export of ${name}";
+          };
+        };
+
+      mkPublicModels = pkgs: builtins.mapAttrs (mkModel pkgs) models;
 
     in
     {
       lib = {
-        inherit models mkModels;
+        inherit models mkModel mkPublicModels;
       };
 
     }
@@ -188,7 +186,7 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
-        modelDerivations = mkModels pkgs models;
+        modelDerivations = mkPublicModels pkgs;
       in
       {
         packages = modelDerivations;

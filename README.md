@@ -6,12 +6,12 @@ A Nix Flake that downloads pre-trained [PaddlePaddle](https://www.paddlepaddle.o
 
 | Package name | Description |
 |---|---|
-| `cyrillic-pp-ocrv5-mobile-det` | Cyrillic OCR v5 recognition (mobile) |
-| `en-pp-ocrv5-mobile-det` | English OCR v5 recognition (mobile) |
+| `cyrillic-pp-ocrv5-mobile-rec` | Cyrillic OCR v5 recognition (mobile) |
+| `en-pp-ocrv5-mobile-rec` | English OCR v5 recognition (mobile) |
 | `eslav-pp-ocrv5-mobile-rec` | East Slavic OCR v5 recognition (mobile) |
 | `latin-pp-ocrv5-mobile-rec` | Latin OCR v5 recognition (mobile) |
-| `pp-lcnet-x0-25-textline-ori` | LCNet x0.25 text line orientation detection |
-| `pp-lcnet-x1-0-doc-ori` | LCNet x1.0 document orientation detection |
+| `pp-lcnet-x0-25-textline-ori` | LCNet x0.25 text line orientation classification |
+| `pp-lcnet-x1-0-doc-ori` | LCNet x1.0 document orientation classification |
 | `pp-ocrv5-mobile-det` | OCR v5 text detection (mobile) |
 | `pp-ocrv5-mobile-rec` | OCR v5 text recognition (mobile) |
 | `pp-ocrv5-server-det` | OCR v5 text detection (server) |
@@ -93,6 +93,25 @@ Add this flake as an input and call `lib.mkPublicModels` with your `pkgs` instan
     );
 }
 ```
+
+## Refreshing hashes
+
+Every model is a fixed-output derivation, so `flake.nix` pins both the sha256 of the source
+tarball (`hash`) and the NAR hash of the converted output (`outputHash`). To recompute them, for
+example after a toolchain bump or an upstream re-upload, run:
+
+```bash
+nix run .#refresh-hashes            # all models, writes flake.nix
+nix run .#refresh-hashes -- --check # only report out-of-date hashes (exit code 1)
+nix run .#refresh-hashes -- pp-ocrv6-tiny-det pp-ocrv6-tiny-rec
+```
+
+The script re-downloads each tarball with `nix store prefetch-file`, builds each model as a regular
+(non fixed-output) derivation so a stale store output cannot hide a change, hashes the result with
+`nix hash path`, writes the new values, and finally builds the updated fixed-output derivations to
+confirm Nix accepts them. It uses the `nix` binary found in `PATH` (override with
+`NIX=/path/to/nix`). Fixed-output hashes must be identical on every platform, so after a refresh
+build the changed models on at least one other platform before committing.
 
 ## Platforms
 

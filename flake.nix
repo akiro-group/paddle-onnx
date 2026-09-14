@@ -16,17 +16,12 @@
       baseUrl = "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0";
 
       models = {
-        cyrillic-pp-ocrv5-mobile-det = {
+        cyrillic-pp-ocrv5-mobile-rec = {
           url = "${baseUrl}/cyrillic_PP-OCRv5_mobile_rec_infer.tar";
           hash = "sha256-7wxm8Z6+aEna+ap0heklPSqNhR4WXiCL8IumimIK5kU=";
           outputHash = "sha256-Pl90W8sOFGf935TGJcXt2YLAWcri6+VfDkf5ZXvmr28=";
         };
-        latin-pp-ocrv5-mobile-rec = {
-          url = "${baseUrl}/latin_PP-OCRv5_mobile_rec_infer.tar";
-          hash = "sha256-sjEFpqHqOOMql8Wg3cfoqbv1QdjkdCHiyZ6cyr4pUJw=";
-          outputHash = "sha256-KFyDLqf+V0amt2NN/wpUms9mw9hGM+eYHRII3XzY1rk=";
-        };
-        en-pp-ocrv5-mobile-det = {
+        en-pp-ocrv5-mobile-rec = {
           url = "${baseUrl}/en_PP-OCRv5_mobile_rec_infer.tar";
           hash = "sha256-5ZW0zy/60Z+7WmG6NF1jk5V3o6uHF7blmVZCWQyRAbQ=";
           outputHash = "sha256-senkAmebyoicQ0lw9c9qNuWbTMiA992mzz734G9Hsr4=";
@@ -35,6 +30,11 @@
           url = "${baseUrl}/eslav_PP-OCRv5_mobile_rec_infer.tar";
           hash = "sha256-ufcNoMorvE1Mt7pAai0CMGEXhDfWqTDwfIyhjGxZGDk=";
           outputHash = "sha256-JVC3YVSOc5ClRrLrD7Q4BcrYZzeLtFatkVmYTZ8MNWI=";
+        };
+        latin-pp-ocrv5-mobile-rec = {
+          url = "${baseUrl}/latin_PP-OCRv5_mobile_rec_infer.tar";
+          hash = "sha256-sjEFpqHqOOMql8Wg3cfoqbv1QdjkdCHiyZ6cyr4pUJw=";
+          outputHash = "sha256-KFyDLqf+V0amt2NN/wpUms9mw9hGM+eYHRII3XzY1rk=";
         };
         pp-lcnet-x0-25-textline-ori = {
           url = "${baseUrl}/PP-LCNet_x0_25_textline_ori_infer.tar";

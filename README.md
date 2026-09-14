@@ -16,9 +16,39 @@ A Nix Flake that downloads pre-trained [PaddlePaddle](https://www.paddlepaddle.o
 | `pp-ocrv5-mobile-rec` | OCR v5 text recognition (mobile) |
 | `pp-ocrv5-server-det` | OCR v5 text detection (server) |
 | `pp-ocrv5-server-rec` | OCR v5 text recognition (server) |
+| `pp-ocrv6-medium-det` | OCR v6 text detection (medium) |
+| `pp-ocrv6-medium-rec` | OCR v6 text recognition (medium, multilingual) |
+| `pp-ocrv6-small-det` | OCR v6 text detection (small) |
+| `pp-ocrv6-small-rec` | OCR v6 text recognition (small, multilingual) |
+| `pp-ocrv6-tiny-det` | OCR v6 text detection (tiny) |
+| `pp-ocrv6-tiny-rec` | OCR v6 text recognition (tiny, multilingual) |
 | `uvdoc` | UVDoc document unwarping |
 
 Models are sourced from the official PaddlePaddle model zoo (paddle3.0.0 inference models).
+
+### PP-OCRv6 notes
+
+PP-OCRv6 (PaddleOCR 3.7) ships three size tiers, `tiny`, `small` and `medium`, which replace the
+`mobile`/`server` naming of PP-OCRv5. There are no language-specific v6 variants: every v6
+recognition model uses a single multilingual dictionary (about 18.7k classes for `small`/`medium`,
+6.9k for `tiny`) covering Latin, Greek and CJK scripts. It contains no Cyrillic characters, so the
+v5 `cyrillic`/`eslav` models remain the only option for those scripts.
+
+Tensor names and shapes are unchanged from v5: input `x` (`[N, 3, H, W]` for detection,
+`[N, 3, 48, W]` for recognition), output `fetch_name_0`.
+
+Detection post-processing defaults changed between v5 and v6, so read them from the bundled
+`config.yml` instead of assuming the v5 values:
+
+| Setting | PP-OCRv5 | PP-OCRv6 |
+|---|---|---|
+| `thresh` | 0.3 | 0.2 |
+| `box_thresh` | 0.6 | 0.45 (`tiny`: 0.4) |
+| `unclip_ratio` | 1.5 | 1.4 |
+| `max_candidates` | 1000 | 3000 |
+
+`DetResizeForTest` in the v6 config no longer specifies `resize_long: 960`; choose the resize
+policy explicitly in your pipeline.
 
 ## Requirements
 
@@ -38,7 +68,7 @@ Each built model derivation contains:
 
 ## Using in another flake
 
-Add this flake as an input and call `lib.mkModels` with your `pkgs` instance to get model derivations built for the current system:
+Add this flake as an input and call `lib.mkPublicModels` with your `pkgs` instance to get model derivations built for the current system:
 
 ```nix
 {
@@ -52,7 +82,7 @@ Add this flake as an input and call `lib.mkModels` with your `pkgs` instance to 
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        models = paddle-onnx.lib.mkModels pkgs;
+        models = paddle-onnx.lib.mkPublicModels pkgs;
       in
       {
         packages.default = pkgs.stdenv.mkDerivation {

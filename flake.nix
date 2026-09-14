@@ -74,6 +74,36 @@
           hash = "sha256-2Zvi/9NIlDq1KHYXkWi+T7WxT18IEvKuTHbYnsLqdQo=";
           outputHash = "sha256-GruBSgCVA1Ww81IR3Ty2IZFFBwG2A8egXmc0Q77YvUM=";
         };
+        pp-ocrv6-medium-det = {
+          url = "${baseUrl}/PP-OCRv6_medium_det_infer.tar";
+          hash = "sha256-FE0GIeBZVm5QhuIogpFxWRwUTC3rB7La1JYiFPur/Pc=";
+          outputHash = "sha256-LYfikr4tAqaEaVusX46O7Tne0OWlUqLtnoi6S72yVnI=";
+        };
+        pp-ocrv6-medium-rec = {
+          url = "${baseUrl}/PP-OCRv6_medium_rec_infer.tar";
+          hash = "sha256-TuzBxqRiN2UELm/BVEbaDaEQt9h1trcrLTUdKy29TaY=";
+          outputHash = "sha256-xjJkRqdvx1s9QLXV0aayjQ6XslmYSzgbfqXNXsfgoic=";
+        };
+        pp-ocrv6-small-det = {
+          url = "${baseUrl}/PP-OCRv6_small_det_infer.tar";
+          hash = "sha256-v7fB5Z8PqmtUDr3Kk66j9LHyR3gFs4n77hF4INaP6fU=";
+          outputHash = "sha256-8OMQUeIAAvAP+i7LlmZ+81It8ug7yXIaGlNOYzhcAhs=";
+        };
+        pp-ocrv6-small-rec = {
+          url = "${baseUrl}/PP-OCRv6_small_rec_infer.tar";
+          hash = "sha256-2kYPlozp+IMlrDo0+jAgd9bpsNzvsWujE3zXeW+HnQY=";
+          outputHash = "sha256-H4fG2pNMSzffJOeQnn75JhUnU2iUjBQVuCMMsnZEezY=";
+        };
+        pp-ocrv6-tiny-det = {
+          url = "${baseUrl}/PP-OCRv6_tiny_det_infer.tar";
+          hash = "sha256-M6I8XhjYMgj57uzNAO14mviReGrJJVyDrrJJWz25zmM=";
+          outputHash = "sha256-4ArboG3ix5A7HULhKMPsEmH5dwdPLCJ7yjc4WOB428w=";
+        };
+        pp-ocrv6-tiny-rec = {
+          url = "${baseUrl}/PP-OCRv6_tiny_rec_infer.tar";
+          hash = "sha256-VEA69XvFOYHT3OCRxsgN/FrjDVhJVUF3cSalS6xFBgQ=";
+          outputHash = "sha256-J31+X4Q5V9/xZHVx4W8lHfzFk3qp/8lxkUUlSE4qMe4=";
+        };
         uvdoc = {
           url = "${baseUrl}/UVDoc_infer.tar";
           hash = "sha256-Fdeca8v3OLfhMu7f9u1Xx+g0xzy8FAof/4/Yq5wqNbk=";

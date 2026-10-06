@@ -80,6 +80,12 @@ buildPythonPackage {
     paddlepaddle
   ];
 
+  # The 2.1.0 wheel caps onnx at 1.17, which no current nixpkgs carries, and requires
+  # polygraphy, which only the polygraphy optimize tool uses (models convert with
+  # --optimize_tool None). The models' outputHash catches any change in converter output.
+  pythonRelaxDeps = [ "onnx" ];
+  pythonRemoveDeps = [ "polygraphy" ];
+
   meta = {
     description = "PaddlePaddle to ONNX model converter";
     homepage = "https://github.com/PaddlePaddle/Paddle2ONNX";
